@@ -1,3 +1,12 @@
+"""
+eda.py
+------
+Exploratory data analysis for the task management dataset.
+Works on ANY CSV as long as you set the column names below to match your file.
+
+Run:
+    python eda.py
+"""
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -5,16 +14,16 @@ import seaborn as sns
 import os
 
 # ---- CONFIG: adjust these to match your actual Kaggle CSV's column names ----
-DATA_PATH = "../data/customer_supports_tickets.csv"   
+DATA_PATH = "../data/synthetic_tasks.csv"
 OUT_DIR = "../outputs"
-COL_DESCRIPTION = "issue_description"
+COL_DESCRIPTION = "description"
 COL_CATEGORY = "category"
 COL_PRIORITY = "priority"
-COL_ASSIGNEE = None       
-COL_CREATED = "ticket_created_date"
-COL_DEADLINE = None       
-COL_SLA_BREACHED = "sla_breached"
-COL_RESOLUTION_HOURS = "resolution_time_hours"
+COL_ASSIGNEE = "assignee"
+COL_CREATED = "created_date"
+COL_DEADLINE = "deadline"
+COL_SLA_BREACHED = None       # not applicable to synthetic dataset
+COL_RESOLUTION_HOURS = None   # not applicable to synthetic dataset
 # -------------------------------------------------------------------------
 
 os.makedirs(OUT_DIR, exist_ok=True)
@@ -98,7 +107,8 @@ def plot_assignee_workload(df):
 
 
 def plot_sla_breach_by_priority(df):
-    if COL_SLA_BREACHED not in df.columns or COL_PRIORITY not in df.columns:
+    if not COL_SLA_BREACHED or COL_SLA_BREACHED not in df.columns or COL_PRIORITY not in df.columns:
+        print("Skipped sla_breach_by_priority.png (no SLA breach column in this dataset)")
         return
     # sla_breached may be stored as real bool, or as strings like "Yes"/"No",
     # "True"/"False", "1"/"0" — normalize all of these to 0/1 before averaging
@@ -129,7 +139,8 @@ def plot_sla_breach_by_priority(df):
 
 
 def plot_resolution_time_by_priority(df):
-    if COL_RESOLUTION_HOURS not in df.columns or COL_PRIORITY not in df.columns:
+    if not COL_RESOLUTION_HOURS or COL_RESOLUTION_HOURS not in df.columns or COL_PRIORITY not in df.columns:
+        print("Skipped resolution_time_by_priority.png (no resolution time column in this dataset)")
         return
     plt.figure(figsize=(8, 5))
     order = ["Low", "Medium", "High", "Urgent"]
