@@ -1,11 +1,4 @@
-"""
-generate_synthetic_data.py
----------------------------
-Creates a small synthetic task dataset that mimics a Jira/Trello export.
-Use this ONLY to test the pipeline end-to-end before you swap in the real
-Kaggle dataset. Once you have real data, point eda.py / preprocessing.py
-at that CSV instead (see README.md for the required column names).
-"""
+
 
 import pandas as pd
 import numpy as np

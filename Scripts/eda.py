@@ -1,12 +1,4 @@
-"""
-eda.py
-------
-Exploratory data analysis for the task management dataset.
-Works on ANY CSV as long as you set the column names below to match your file.
 
-Run:
-    python eda.py
-"""
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -22,8 +14,8 @@ COL_PRIORITY = "priority"
 COL_ASSIGNEE = "assignee"
 COL_CREATED = "created_date"
 COL_DEADLINE = "deadline"
-COL_SLA_BREACHED = None       # not applicable to synthetic dataset
-COL_RESOLUTION_HOURS = None   # not applicable to synthetic dataset
+COL_SLA_BREACHED = None       
+COL_RESOLUTION_HOURS = None   
 # -------------------------------------------------------------------------
 
 os.makedirs(OUT_DIR, exist_ok=True)
