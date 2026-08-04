@@ -1,4 +1,5 @@
 
+
 import pandas as pd
 import numpy as np
 import random
@@ -85,7 +86,15 @@ FILLERS_X = ["submit button", "checkout", "multiple", "peak load", "mobile", "si
 FILLERS_Y = ["payment", "user profile", "search", "admin", "reporting", "auth", "notifications"]
 
 
-def build_description(category):
+URGENCY_PHRASES = {
+    "Urgent": ["URGENT: ", "Critical — ", "Blocking release — ", "ASAP — "],
+    "High": ["High priority: ", "Please prioritize — ", "Time-sensitive — "],
+    "Medium": ["", "", "When possible, "],  # mostly neutral, some soft framing
+    "Low": ["Low priority — ", "No rush, but ", "Whenever convenient — "],
+}
+
+
+def build_description(category, priority):
     template = random.choice(TEMPLATES[category])
     desc = template.format(
         x=random.choice(FILLERS_X),
@@ -93,12 +102,33 @@ def build_description(category):
         verb=random.choice(SHARED_VERBS),
         noun=random.choice(SHARED_NOUNS),
     )
+    # attach urgency language correlated with priority ~70% of the time —
+    # not 100%, so the signal is realistic (present but not deterministic)
+    if random.random() < 0.7:
+        prefix = random.choice(URGENCY_PHRASES[priority])
+        desc = prefix + desc[0].lower() + desc[1:] if prefix else desc
     return desc
 
 
 def generate_row(task_id, noise_rate=0.08):
     true_category = random.choice(CATEGORIES)
-    desc = build_description(true_category)
+
+    # priority correlates with the TRUE category, but not perfectly — each
+    # category has its own realistic tendency (production-facing categories
+    # skew urgent, low-stakes categories skew low), with meaningful overlap
+    # so this is a genuinely hard-but-learnable problem, not deterministic
+    PRIORITY_WEIGHTS = {
+        "Bug":              [10, 25, 40, 25],  # skews High/Urgent
+        "DevOps":           [10, 25, 35, 30],  # production issues, skews Urgent
+        "Backend":          [15, 35, 35, 15],  # moderate, skews Medium/High
+        "Testing":          [20, 40, 30, 10],  # moderate
+        "UI/UX":            [25, 45, 25, 5],   # skews Medium/Low
+        "Feature Request":  [30, 45, 20, 5],   # skews Low/Medium
+        "Documentation":    [50, 35, 10, 5],   # skews Low
+    }
+    priority = random.choices(PRIORITIES, weights=PRIORITY_WEIGHTS[true_category])[0]
+
+    desc = build_description(true_category, priority)
 
     # controlled label noise: ~8% of rows get labeled as a confusable
     # neighboring category instead of the one the text was generated for —
@@ -107,15 +137,6 @@ def generate_row(task_id, noise_rate=0.08):
         label_category = random.choice(CONFUSABLE_PAIRS[true_category])
     else:
         label_category = true_category
-
-    # priority correlates loosely with the TRUE category (not the noisy label,
-    # since priority would realistically follow the actual nature of the issue)
-    if true_category == "Bug":
-        priority = random.choices(PRIORITIES, weights=[10, 25, 40, 25])[0]
-    elif true_category == "Documentation":
-        priority = random.choices(PRIORITIES, weights=[50, 35, 10, 5])[0]
-    else:
-        priority = random.choices(PRIORITIES, weights=[20, 40, 30, 10])[0]
 
     created = pd.Timestamp("2025-01-01") + pd.Timedelta(days=random.randint(0, 300))
     deadline_offset = {"Urgent": 2, "High": 5, "Medium": 10, "Low": 20}[priority]
