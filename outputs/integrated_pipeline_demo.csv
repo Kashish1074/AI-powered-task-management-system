@@ -1,0 +1,6 @@
+description,predicted_category,predicted_priority,recommended_assignee,reasoning
+Application crashes when checkout button is clicked on the payment page,Bug,Urgent,vikram,"vikram handles 16% of their tasks in 'Bug', currently has 122 open tasks (below team average of 133.3)"
+Please add dark mode support to the admin dashboard,Feature Request,Medium,rohan,"rohan handles 20% of their tasks in 'Feature Request', currently has 121 open tasks (below team average of 133.3)"
+URGENT: production deployment is broken on the auth server,DevOps,Urgent,rohan,"rohan handles 12% of their tasks in 'DevOps', currently has 121 open tasks (below team average of 133.3)"
+Update the documentation for the reporting API endpoint,Documentation,Medium,vikram,"vikram handles 18% of their tasks in 'Documentation', currently has 122 open tasks (below team average of 133.3)"
+Users report the search feature stops responding during peak load,Bug,Medium,vikram,"vikram handles 16% of their tasks in 'Bug', currently has 122 open tasks (below team average of 133.3)"
