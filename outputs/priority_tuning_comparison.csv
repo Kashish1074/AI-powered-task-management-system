@@ -1,0 +1,3 @@
+model,accuracy,precision,recall,f1
+Baseline RF (untuned),0.725,0.743460760126419,0.725,0.729053143825871
+Tuned RF (GridSearchCV),0.725,0.7494042642140469,0.725,0.7299800355488004
