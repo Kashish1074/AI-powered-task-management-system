@@ -61,7 +61,7 @@ Example end-to-end predictions (raw text -> category, priority, assignee):
 | Update the documentation for the reporting API endpoint                 | Documentation        | Medium               | vikram                 | vikram handles 18% of their tasks in 'Documentation', currently has 122 open tasks (below team average of 133.3)  |
 | Users report the search feature stops responding during peak load       | Bug                  | Medium               | vikram                 | vikram handles 16% of their tasks in 'Bug', currently has 122 open tasks (below team average of 133.3)            |
 
-## 6. Known Limitations (for report honesty)
+## 6. Limitations 
 
 - Dataset is synthetic, not scraped from a live system — see README for why the original real Kaggle dataset was rejected (no assignee field, priority uncorrelated with SLA/resolution outcomes)
 - Category classifier accuracy (~92%) reflects deliberately-introduced template overlap and label noise (~8%), tuned to be realistic rather than trivial
