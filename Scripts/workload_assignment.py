@@ -1,4 +1,5 @@
 
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -150,7 +151,7 @@ def main():
     print(f"\nCurrent workload (task count): {workload}")
 
     # save agent affinity profiles for reuse in the Week 4 dashboard
-    with open(f"{OUT_DIR}/agent_profiles.json", "w") as f:
+    with open(f"{OUT_DIR}/agent_profiles.json", "w", encoding="utf-8") as f:
         json.dump({"affinity": affinity, "workload": workload}, f, indent=2)
     print(f"Saved agent profiles -> {OUT_DIR}/agent_profiles.json")
 
