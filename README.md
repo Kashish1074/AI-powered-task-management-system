@@ -3,7 +3,7 @@
 An intelligent task management system that uses NLP and machine learning to automatically classify, prioritize, and assign incoming tasks — going beyond simple classification to recommend *who* should handle each task based on category expertise and current workload.
 
 ## Live Demo
-🔗 ****
+🔗 **https://ai-powered-task-management-system-yzzhsaz54ppkb75kj4dsja.streamlit.app/**
 
 ## What it does
 
