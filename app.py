@@ -1,13 +1,4 @@
-"""
-app.py
--------
-Streamlit dashboard for the AI-Powered Task Management System.
-Wraps the integrated pipeline (category + priority + workload-aware
-assignment) built in Week 3 — no new ML logic here, just UI.
 
-Run from the project root:
-    streamlit run app.py
-"""
 
 import sys
 import os
@@ -15,11 +6,30 @@ import json
 import pandas as pd
 import streamlit as st
 
-# integrated_pipeline.py lives in scripts/, add it to the import path
-sys.path.append(os.path.join(os.path.dirname(__file__), "scripts"))
-from integrated_pipeline import TaskPipeline
-
 st.set_page_config(page_title="TaskFlow AI", page_icon="◆", layout="centered")
+
+# integrated_pipeline.py lives in scripts/, add it to the import path.
+# Try both casings — Windows treats "scripts" and "Scripts" as the same
+# folder, but Streamlit Cloud runs on case-sensitive Linux, so this avoids
+# breaking depending on how the folder happened to get committed to GitHub.
+_base_dir = os.path.dirname(__file__)
+_scripts_dir = None
+for _folder_name in ("scripts", "Scripts"):
+    _candidate = os.path.join(_base_dir, _folder_name)
+    if os.path.isdir(_candidate):
+        _scripts_dir = _candidate
+        break
+
+if _scripts_dir is None:
+    st.error(
+        "Could not find the 'scripts' folder next to app.py. "
+        f"Looked in: {_base_dir}. Check that the scripts folder is "
+        "actually committed to your GitHub repo."
+    )
+    st.stop()
+
+sys.path.append(_scripts_dir)
+from integrated_pipeline import TaskPipeline
 
 OUT_DIR = "outputs"
 
